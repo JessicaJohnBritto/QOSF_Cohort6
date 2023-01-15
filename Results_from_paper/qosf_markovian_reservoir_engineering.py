@@ -133,5 +133,5 @@ probs = np.linspace(0,1,num=20)
 repcnt = 1000
 
 calc_plot(zz_pump,sys,env,probs,repcnt)
-#calc_plot(xx_pump,sys,env,probs,repcnt)
-#calc_plot(zz_xx_pump,sys,env,probs,repcnt)
+calc_plot(xx_pump,sys,env,probs,repcnt)
+calc_plot(zz_xx_pump,sys,env,probs,repcnt)
