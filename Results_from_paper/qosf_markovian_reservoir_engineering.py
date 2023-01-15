@@ -19,7 +19,12 @@ def zz_pump(sys,env,p):
     #undo everything
     #do we really need the below CNOT? I don't think so...
     yield cirq.CNOT(sys[0],env[0])
-    yield cirq.CNOT(sys[1],sys[0])
+    #yield cirq.CNOT(sys[1],sys[0])
+    #apply Bell measurement circuit...
+    #yield cirq.CNOT(sys[1],sys[0])
+    #but the CNOTs above cancel out, so we can remove them
+    #same for xx and zz_xx pump
+    yield cirq.H(sys[1])
 
 def xx_pump(sys,env,p):
     yield cirq.CNOT(sys[1],sys[0])
@@ -33,8 +38,10 @@ def xx_pump(sys,env,p):
     yield cirq.Rx(rads=np.arccos(1-2*p)).on(sys[1]).controlled_by(env[0])
     yield cirq.CNOT(sys[1],env[0])
     #apply back the H
-    yield cirq.H(sys[1])
-    yield cirq.CNOT(sys[1],sys[0])
+    #yield cirq.H(sys[1])
+    #yield cirq.H(sys[1])
+    #but the H from the Bell measurement circuit cancels out this H
+    #so we can remove them
 
 def zz_xx_pump(sys,env,p):
     yield cirq.CNOT(sys[1],sys[0])
@@ -47,49 +54,30 @@ def zz_xx_pump(sys,env,p):
     yield cirq.CNOT(sys[1],env[1])
     yield cirq.Rx(rads=np.arccos(1-2*p)).on(sys[1]).controlled_by(env[1])
     yield cirq.CNOT(sys[1],env[1])
-    yield cirq.H(sys[1])
-    yield cirq.CNOT(sys[1],sys[0])
-
-
-def encode_bell(sys):
-    yield cirq.H(sys[0])
-    yield cirq.CNOT(sys[0],sys[1])
-
-def decode_bell(sys):
-    yield cirq.CNOT(sys[0],sys[1])
-    yield cirq.H(sys[0])
 
 def calc_pump(pump,sys,env,p,repcnt):
     #|phi+>
     circuit00 = cirq.Circuit()
-    circuit00.append(encode_bell(sys))
     circuit00.append(pump(sys,env,p))
-    circuit00.append(decode_bell(sys))
     circuit00.append(cirq.measure(sys, key = 'answer'))
 
     #|psi+>
     circuit01 = cirq.Circuit()
     circuit01.append(cirq.X.on(sys[1]))
-    circuit01.append(encode_bell(sys))
     circuit01.append(pump(sys,env,p))
-    circuit01.append(decode_bell(sys))
     circuit01.append(cirq.measure(sys, key = 'answer'))
 
     #|phi->
     circuit10 = cirq.Circuit()
     circuit10.append(cirq.X.on(sys[0]))
-    circuit10.append(encode_bell(sys))
     circuit10.append(pump(sys,env,p))
-    circuit10.append(decode_bell(sys))
     circuit10.append(cirq.measure(sys, key = 'answer'))
 
     #|psi->
     circuit11 = cirq.Circuit()
     circuit11.append(cirq.X.on(sys[0]))
     circuit11.append(cirq.X.on(sys[1]))
-    circuit11.append(encode_bell(sys))
     circuit11.append(pump(sys,env,p))
-    circuit11.append(decode_bell(sys))
     circuit11.append(cirq.measure(sys, key = 'answer'))
 
     simulator = cirq.Simulator()
@@ -121,8 +109,8 @@ def calc_plot(pump,sys,env,probs,repcnt):
             pops[i].append(counts[i])
 
     plt.scatter(probs,pops[0],label='|phi+>')
-    plt.scatter(probs,pops[1],label='|psi+>')
-    plt.scatter(probs,pops[2],label='|phi->')
+    plt.scatter(probs,pops[1],label='|phi->')
+    plt.scatter(probs,pops[2],label='|psi+>')
     plt.scatter(probs,pops[3],label='|psi->')
     plt.legend()
     plt.show()
