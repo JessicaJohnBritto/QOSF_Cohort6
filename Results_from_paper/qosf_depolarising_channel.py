@@ -19,6 +19,19 @@ sys = [cirq.LineQubit(3)]
 probs = np.linspace(0,1,num=20)
 phi = np.pi/4
 psi = np.pi/4
+a = np.cos(phi/2)**2
+b = np.sin(phi/2)*np.cos(phi/2)*(np.cos(psi)-np.sin(psi)*1j)
+c = np.conj(b)
+d = np.sin(phi/2)**2
+
+def theoretical_rho00(p):
+    return (1-0.5*p)*a+0.5*p*d
+def theoretical_Rrho01(p):
+    return np.real((1-p)*b-0.25*p*c)
+def theoretical_Irho01(p):
+    return np.imag((1-p)*b-0.25*p*c)
+def theoretical_rho11(p):
+    return (1-0.5*p)*d+0.5*p*a
 
 rho00 = []
 rho11 = []
@@ -32,7 +45,7 @@ for p in probs:
     sampler=cirq.Simulator(),  # In case of Google QCS or other hardware providers, sampler could point at real hardware.
     qubit=sys[0],
     circuit=circuit,
-    repetitions=5000,
+    repetitions=2000,
     )
     rho00_p = result.data[0,0]
     rho11_p = result.data[1,1]
@@ -44,9 +57,12 @@ for p in probs:
     Irho01.append(Irho01_p)
 
 plt.scatter(probs,rho00,label='rho00')
+plt.plot(probs,theoretical_rho00(probs),linestyle='--')
 plt.scatter(probs,rho11,label='rho11')
+plt.plot(probs,theoretical_rho11(probs),linestyle='--')
 plt.scatter(probs,Rrho01,label='Rrho01')
+plt.plot(probs,theoretical_Rrho01(probs),linestyle='--')
 plt.scatter(probs,Irho01,label='Irho01')
+plt.plot(probs,theoretical_Irho01(probs),linestyle='--')
 plt.legend()
 plt.show()
-#print([ m for m in dir(cirq.experiments.qubit_characterizations.TomographyResult) if not m.startswith('__')])

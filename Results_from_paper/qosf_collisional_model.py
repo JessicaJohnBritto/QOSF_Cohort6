@@ -71,9 +71,9 @@ def uncorrfunc(i):
 x_ax = np.linspace(0,t[-1],num=1000)
 
 plt.scatter(t,rho_12_corr,label='correlated')
-plt.plot(x_ax,corrfunc(x_ax),label='corrfunc',linestyle='--')
-plt.plot(x_ax,uncorrfunc(x_ax),label='uncorrfunc',linestyle='--')
+plt.plot(x_ax,corrfunc(x_ax),linestyle='--')
 plt.scatter(t,rho_12_uncorr,label='uncorrelated')
+plt.plot(x_ax,uncorrfunc(x_ax),linestyle='--')
 plt.legend()
 plt.show()
     
