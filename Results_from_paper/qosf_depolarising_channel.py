@@ -25,13 +25,13 @@ c = np.conj(b)
 d = np.sin(phi/2)**2
 
 def theoretical_rho00(p):
-    return (1-0.5*p)*a+0.5*p*d
+    return 0.5*p+(1-p)*a
 def theoretical_Rrho01(p):
-    return np.real((1-p)*b-0.25*p*c)
+    return np.real((1-p)*b)
 def theoretical_Irho01(p):
-    return np.imag((1-p)*b-0.25*p*c)
+    return np.imag((1-p)*b)
 def theoretical_rho11(p):
-    return (1-0.5*p)*d+0.5*p*a
+    return 0.5*p+(1-p)*d
 
 rho00 = []
 rho11 = []
