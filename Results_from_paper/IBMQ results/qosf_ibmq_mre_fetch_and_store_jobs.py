@@ -10,10 +10,16 @@ provider = IBMProvider()
 probs = np.linspace(0,1,5)
 ini_list = ['00','01','10','11']
 
+#00 phi+
+#01 phi-
+#10 psi+
+#11 psi-
+
 def return_counts(job_id):
     counts = None
     job = provider.backend.retrieve_job(job_id.strip())
     if not job.done():
+        print(job_id.strip()+' is not complete') # to avoid silent fail
         return counts
     results = job.result()
     counts = results.get_counts()
@@ -23,6 +29,7 @@ def return_counts(job_id):
         y_01 = []
         y_10 = []
         y_11 = []
+        
         for j in range(len(probs)):
             cnt = Counter()
             cnt += Counter(counts[i+j])
@@ -38,8 +45,8 @@ def return_counts(job_id):
     return pump_res
 
 all_res = None
-with open('mre_sim.txt') as file:
+with open('mre_sim_12.txt') as file:
     all_res = [return_counts(job_id) for job_id in file]
 
-with open('mre_sim_res.json','w') as file:
+with open('mre_sim_12_res.json','w') as file:
     json.dump(all_res, file)

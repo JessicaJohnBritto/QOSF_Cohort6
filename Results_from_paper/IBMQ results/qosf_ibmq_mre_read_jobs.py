@@ -9,6 +9,8 @@ from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
 #importing Mitiq
 from mitiq.zne import inference
 
+plt.rcParams['text.usetex'] = True
+
 provider = IBMProvider()
 
 probs = np.linspace(0,1,5)
@@ -17,21 +19,21 @@ pump_list = ['ZZ pump','XX pump','ZZ XX pump']
 ini_list = ['00','01','10','11']
 
 all_res = None
-with open('mre_11_res.json') as file:
-    all_res = json.load(file)
+##with open('mre_7_res.json') as file:
+##    all_res = json.load(file)
 
 all_res_sim = None
-with open('mre_sim_res.json') as file:
+with open('mre_sim_12_res.json') as file:
     all_res_sim = json.load(file)
 
-scale_factors = list(range(1,15))
+scale_factors = list(range(1,30))
 
 res_mitigated = np.ndarray((len(pump_list),len(ini_list),len(probs)))
 res_sim = np.ndarray((len(pump_list),len(ini_list),len(probs)))
 
-##for i in range(len(pump_list)): #For the current pump
-##    for j in range(len(ini_list)):  #For the current state
-##        for k in range(len(probs)): #For the current probability
+for i in range(len(pump_list)): #For the current pump
+    for j in range(len(ini_list)):  #For the current state
+        for k in range(len(probs)): #For the current probability
 ##            exp_vals = []
 ##            sf_real = []
 ##            for l in range(len(scale_factors)): #Get exp_val for each scale_factor
@@ -47,36 +49,44 @@ res_sim = np.ndarray((len(pump_list),len(ini_list),len(probs)))
 ##                mitig_val = inference.LinearFactory.extrapolate(sf_real,exp_vals) #Extrapolate and get mitigated value
 ##            #res_mitigated[i,j,k] = all_res[0][i][j][k]/(4*shots)    #Store mitigated values
 ##            res_mitigated[i,j,k] = mitig_val    #Store mitigated values
-##            res_sim[i,j,k] = all_res_sim[0][i][j][k]/(4*20000)  #Store simulated values
+            res_sim[i,j,k] = all_res_sim[0][i][j][k]/(4*20000)  #Store simulated values
 
-for i in range(len(pump_list)): #For the current pump
-    fig, axs = plt.subplots(4,5,layout='tight')
-    for k in range(len(probs)):
-        axs[0,k].set_title(str(probs[k]))
-    for j in range(len(ini_list)):
-        axs[j,0].set_ylabel(ini_list[j])
-    for j in range(len(ini_list)):  #For the current state
-        for k in range(len(probs)): #For the current probability
-            exp_vals = []
-            sf_real = []
-            for l in range(len(scale_factors)): #Get exp_val for each scale_factor
-                if all_res[l]==None:
-                    continue
-                exp_vals.append(all_res[l][i][j][k]/(4*shots))
-                sf_real.append(scale_factors[l])
-            axs[j,k].scatter(sf_real,exp_vals,s=10)
-    fig.suptitle(pump_list[i])
-    fig.show()
+##for i in range(len(pump_list)): #For the current pump
+##    fig, axs = plt.subplots(4,5,layout='tight')
+##    for k in range(len(probs)):
+##        axs[0,k].set_title(str(probs[k]))
+##    for j in range(len(ini_list)):
+##        axs[j,0].set_ylabel(ini_list[j])
+##    for j in range(len(ini_list)):  #For the current state
+##        for k in range(len(probs)): #For the current probability
+##            exp_vals = []
+##            sf_real = []
+##            for l in range(len(scale_factors)): #Get exp_val for each scale_factor
+##                if all_res[l]==None:
+##                    continue
+##                exp_vals.append(all_res[l][i][j][k]/(4*shots))
+##                sf_real.append(scale_factors[l])
+##            axs[j,k].scatter(sf_real,exp_vals,s=10)
+##    fig.suptitle(pump_list[i])
+##    fig.show()
 
-##for pump_name,mitig_res,sim_res in zip(pump_list,res_mitigated,res_sim):
-##    plt.title(pump_name)
-##    plt.scatter(probs,np.array(mitig_res[0]),label='psi+ m',s=20)
-##    plt.scatter(probs,np.array(mitig_res[1]),label='psi- m',s=20)
-##    plt.scatter(probs,np.array(mitig_res[2]),label='phi+ m',s=20)
-##    plt.scatter(probs,np.array(mitig_res[3]),label='phi- m',s=20)
-##    plt.plot(probs,np.array(sim_res[0]),label='psi+ s',linestyle='--')
-##    plt.plot(probs,np.array(sim_res[1]),label='psi- s',linestyle='--')
-##    plt.plot(probs,np.array(sim_res[2]),label='phi+ s',linestyle='--')
-##    plt.plot(probs,np.array(sim_res[3]),label='phi- s',linestyle='--')
-##    plt.legend()
-##    plt.show()
+#00 phi+
+#01 phi-
+#10 psi+
+#11 psi-
+
+for pump_name,mitig_res,sim_res in zip(pump_list,res_mitigated,res_sim):
+    plt.title(pump_name)
+##    plt.scatter(probs,np.array(mitig_res[0]),label=r'$\mid\Phi+\rangle$',s=20)
+##    plt.scatter(probs,np.array(mitig_res[1]),label=r'$\mid\Phi-\rangle$',s=20)
+##    plt.scatter(probs,np.array(mitig_res[2]),label=r'$\mid\Psi+\rangle$',s=20)
+##    plt.scatter(probs,np.array(mitig_res[3]),label=r'$\mid\Psi-\rangle$',s=20)
+    plt.plot(probs,np.array(sim_res[0]),label=r'$|\Phi+\rangle$',linestyle='--')
+    plt.plot(probs,np.array(sim_res[1]),label=r'$|\Phi-\rangle$',linestyle='--')
+    plt.plot(probs,np.array(sim_res[2]),label=r'$|\Psi+\rangle$',linestyle='--')
+    plt.plot(probs,np.array(sim_res[3]),label=r'$|\Psi-\rangle$',linestyle='--')
+    plt.legend()
+    plt.xticks(probs)
+    plt.xlabel(r'$p$',fontsize=12)
+    plt.ylabel(r'Overlap',fontsize=12)
+    plt.show()
