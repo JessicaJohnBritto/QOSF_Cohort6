@@ -22,17 +22,20 @@ def return_counts(job_id):
         return counts
     results = job.result()
     counts = results.get_counts()
-    res = np.ndarray(shape=(n,2))
+    res = np.zeros(shape=(n,2))
     for i in range(n):
         cnt = counts[i]
-        res[i][0] = cnt.get('0',0)
-        res[i][1] = cnt.get('1',0)
+        for j in range(2**4):
+            if j%2 == 0:
+                res[i][0] += cnt.get(bin(j)[2:].zfill(4),0)
+            else:
+                res[i][1] += cnt.get(bin(j)[2:].zfill(4),0)
 
     return res.tolist()
 
 all_res = None
-with open('./Jobs/Real/1.txt') as file:
+with open('./Jobs/Real/3.txt') as file:
     all_res = [return_counts(job_id) for job_id in file]
 
-with open('./Data/Real/1.json','w') as file:
+with open('./Data/Real/3.json','w') as file:
     json.dump(all_res, file)

@@ -31,6 +31,9 @@ def corr(q, c, system, ancillae, g, t, i):
     coA.h(q[system])
     
     coA.measure(q[system],c[0])
+    coA.measure(q[ancillae[0]],c[1])
+    coA.measure(q[ancillae[1]],c[2])
+    coA.measure(q[ancillae[2]],c[3])
         
     return coA
 
@@ -68,39 +71,39 @@ def rewrite_qasm(qasm_str):
     return '\n'.join(final_output)
 
 provider = IBMProvider()
-backend = provider.get_backend('ibmq_quito')
+backend = provider.get_backend('ibm_osaka')
 
-shots = 4000
+shots = 1024
 
-with open('./Jobs/Real/1.txt','w') as job_id_file:
+with open('./Jobs/Real/3.txt','w') as job_id_file:
     system = 0
     ancillae = [1, 2, 3]
     n = 15
     tt = np.pi/6
     g = 1
     t = g*(tt)
-    scale_factors = [1,2,3,4]
+    scale_factors = [1]
 
     for scale_factor in scale_factors:
         circ_list = []
 
         q = QuantumRegister(4,name = 'q')
-        c = ClassicalRegister(1, name = 'c')
+        c = ClassicalRegister(4, name = 'c')
         for i in range(1,n+1,1):
             #Create circuit
             circ = corr(q, c, system, ancillae, g, tt, i)
             #Transpile first pass
             transpiled = transpile(circ,backend=backend,optimization_level=0)
             #Convert to Mitiq
-            circ_to_mitiq = from_qiskit(transpiled)
+            #circ_to_mitiq = from_qiskit(transpiled)
             #Fold circuit
-            circ_folded_mitiq = fold_gates_at_random(circ_to_mitiq, scale_factor)
+            #circ_folded_mitiq = fold_gates_at_random(circ_to_mitiq, scale_factor)
             #Convert to Qiskit
-            circ_folded_qasm = rewrite_qasm(to_qasm(circ_folded_mitiq))
-            circ_folded = QuantumCircuit.from_qasm_str(circ_folded_qasm)
+            #circ_folded_qasm = rewrite_qasm(to_qasm(circ_folded_mitiq))
+            #circ_folded = QuantumCircuit.from_qasm_str(circ_folded_qasm)
             #Transpile without optimizing
-            transpiled_folded = transpile(circ_folded, backend=backend, optimization_level=0)
-            circ_list.append(transpiled_folded)
+            #transpiled_folded = transpile(circ_folded, backend=backend, optimization_level=0)
+            circ_list.append(transpiled)
 
         job = backend.run(circ_list, shots=shots)   #Run job
         job_id_file.write(job.job_id()+'\n')    #Write to file
