@@ -16,7 +16,7 @@ def depolarising(sys,env,p,phi,psi):
 
 env = cirq.LineQubit.range(3)
 sys = [cirq.LineQubit(3)]
-probs = np.linspace(0,1,num=20)
+probs = np.linspace(0,1,num=10)
 phi = np.pi/4
 psi = np.pi/4
 a = np.cos(phi/2)**2
