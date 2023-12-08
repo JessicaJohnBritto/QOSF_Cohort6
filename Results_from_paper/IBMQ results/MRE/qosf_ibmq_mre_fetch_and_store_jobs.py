@@ -37,8 +37,8 @@ def return_counts(job_id):
     return res.tolist()
 
 all_res = None
-with open('./Jobs/Real/mre_13.txt') as file:
+with open('./Jobs/Real_new/1.txt') as file:
     all_res = [return_counts(job_id) for job_id in file]
 
-with open('./Data/Real/mre_13_res.json','w') as file:
+with open('./Data/Real_new/1.json','w') as file:
     json.dump(all_res, file)

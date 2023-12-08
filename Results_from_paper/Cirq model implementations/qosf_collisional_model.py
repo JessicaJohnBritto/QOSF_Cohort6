@@ -35,7 +35,7 @@ def collision_circuit(env,sys,prepare_ancilla,collision_pattern,n,theta):
     yield from meas_coherence(sys)
 
 
-n = 7
+n = 20
 g = 1
 tau = np.pi/6
 t = np.array(list(range(1,n+1)))*tau
@@ -47,7 +47,7 @@ sys = cirq.LineQubit(0)
 env = cirq.LineQubit.range(1,n+1)
 
 simulator = cirq.Simulator()
-repcnt = 500
+repcnt = 1024
 
 for i in range(1,n+1):
     circuit = cirq.Circuit(collision_circuit(env,sys,prepare_correlated,collision_pattern_correlated,i,theta))

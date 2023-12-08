@@ -7,7 +7,7 @@ from qiskit_ibm_provider import IBMProvider
 
 provider = IBMProvider()
 
-n = 15
+n = 20
 
 #00 phi+
 #01 phi-
@@ -34,8 +34,8 @@ def return_counts(job_id):
     return res.tolist()
 
 all_res = None
-with open('./Jobs/Real/3.txt') as file:
+with open('./Jobs/Sim/2.txt') as file:
     all_res = [return_counts(job_id) for job_id in file]
 
-with open('./Data/Real/3.json','w') as file:
+with open('./Data/Sim/2.json','w') as file:
     json.dump(all_res, file)

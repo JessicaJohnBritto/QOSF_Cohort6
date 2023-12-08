@@ -90,51 +90,18 @@ def zz_xx_pump(q, c, p, system, ancillae, ini):
     
     return zx
 
-def rewrite_qasm(qasm_str):
-    lines = qasm_str.split('\n')
-    out_lines = []
-    measure_lines = []
-    creg_lines = []
-    final_output = []
-    for line in lines:
-        if not line.endswith(';'):
-            out_lines.append(line)
-            continue
-        words = line[:-1].split(' ')
-        if words[0] == 'measure':
-            measure_lines.append(line)
-        elif words[0] == 'creg':
-            creg_lines.append(line)
-        else:
-            out_lines.append(line)
-    
-    for line in out_lines:
-        final_output.append(line)
-        if line.startswith('qreg'):
-            final_output.append(f'creg c[{len(creg_lines)}];')
-
-    for line in measure_lines:
-        words = line[:-1].split(' ')
-        qword = words[1]
-        cword = words[3]
-        final_output.append(f'measure {qword} -> c[{cword[4]}];')
-
-    final_output.append('')
-
-    return '\n'.join(final_output)
-
 provider = IBMProvider()
-backend = provider.get_backend('ibmq_jakarta')
+backend = provider.get_backend('ibm_osaka')
 
-shots = 4000
+shots = 1024
 probs = np.linspace(0,1,5)
 
-with open('./Jobs/Real/mre_13.txt','w') as job_id_file:
+with open('./Jobs/Real_new/2.txt','w') as job_id_file:
     pump_list = [zz_pump,xx_pump,zz_xx_pump]
     sys_list = [[1,2],[1,2],[1,2]]
     anc_list = [[0],[0],[0,3]]
     ini_list = ['00','01','10','11']
-    scale_factors = [1,2,3,4]
+    scale_factors = [4]
 
     for scale_factor in scale_factors:
         circ_list = []
@@ -146,15 +113,10 @@ with open('./Jobs/Real/mre_13.txt','w') as job_id_file:
                     c = ClassicalRegister(2, name='c')
                     #Create circuit
                     circ = pump(q, c, p, sys, anc, ini)
-                    #Transpile first pass
-                    transpiled = transpile(circ,backend=backend,optimization_level=0)
-                    #Convert to Mitiq
-                    circ_to_mitiq = from_qiskit(transpiled)
+                    #Transpile to basis gates (avoiding cry)
+                    circ_transpiled = transpile(circ, basis_gates=['id', 'ry', 'rx', 'cx', 'x'], optimization_level=0)
                     #Fold circuit
-                    circ_folded_mitiq = fold_gates_at_random(circ_to_mitiq, scale_factor)
-                    #Convert to Qiskit
-                    circ_folded_qasm = rewrite_qasm(to_qasm(circ_folded_mitiq))
-                    circ_folded = QuantumCircuit.from_qasm_str(circ_folded_qasm)
+                    circ_folded = fold_gates_at_random(circ_transpiled, scale_factor)
                     #Transpile without optimizing
                     transpiled_folded = transpile(circ_folded, backend=backend, optimization_level=0)
                     circ_list.append(transpiled_folded)

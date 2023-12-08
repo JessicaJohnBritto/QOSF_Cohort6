@@ -10,17 +10,15 @@ from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, transpile
 #importing Mitiq
 from mitiq.zne import inference
 
-provider = IBMProvider()
-
 probs = np.linspace(0,1,5)
-shots = 4000
+shots = 1024
 pump_list = ['ZZ pump','XX pump','ZZ XX pump']
 ini_list = ['00','01','10','11']
 ini_state_list = [r'$|00\rangle$',r'$|01\rangle$',r'$|10\rangle$',r'$|11\rangle$']
 fin_state_list = [r'$\mid\Phi+\rangle$',r'$\mid\Phi-\rangle$',r'$\mid\Psi+\rangle$',r'$\mid\Psi-\rangle$']
 
 
-with open('./Data/Real/mre_13_res.json') as file:
+with open('./Data/Real_new/1.json') as file:
     all_res = json.load(file)
 
 with open('./Data/Sim/mre_sim_13_res.json') as file:
@@ -37,18 +35,6 @@ fin_res_mit = np.zeros((len(pump_list),len(ini_list),len(probs)))
 fin_res_sim = np.zeros((len(pump_list),len(ini_list),len(probs)))
 
 def mitigate(scale_factors,exp_vals):
-##    try:
-##        mit_val,std_dev,opt_par,cov_mat,model = inference.LinearFactory.extrapolate(scale_factors,exp_vals,full_output=True)
-##        print(f'Standard deviation from linear fit is {std_dev}. Value is {mit_val}.')
-##        if std_dev>1:
-##            print('Standard deviation too large, using linear fit.')
-##            mit_val,std_dev,opt_par,cov_mat,model = inference.LinearFactory.extrapolate(scale_factors,exp_vals,full_output=True)
-##            print(f'Standard deviation from linear fit is {std_dev}. Value is {mit_val}.')
-##    except inference.ExtrapolationError:
-##        print('Exponential fit failed, using linear fit.')
-##        mit_val,std_dev,opt_par,cov_mat,model = inference.LinearFactory.extrapolate(scale_factors,exp_vals,full_output=True)
-##        print(f'Standard deviation from linear fit is {std_dev}. Value is {mit_val}.')
-##    print(f'--------------------------------------------------------------------------------------------------------------')
     mit_val,std_dev,opt_par,cov_mat,model = inference.LinearFactory.extrapolate(scale_factors,exp_vals,full_output=True)
     print(f'Standard deviation from linear fit is {std_dev}. Value is {mit_val}.')
     return mit_val
@@ -94,8 +80,8 @@ for pump_name,real_res,mit_res,sim_res in zip(pump_list,fin_res_real,fin_res_mit
     plt.grid()
     plt.title(pump_name)
     for j in range(4):
-##        plt.scatter(probs,np.array(real_res[j]),label=fin_state_list[j],s=20)
-        plt.scatter(probs,np.array(mit_res[j]),label=fin_state_list[j],s=20)
+##        plt.scatter(probs,np.array(real_res[j]),label=fin_state_list[j])
+        plt.scatter(probs,np.array(mit_res[j]),label=fin_state_list[j])
         plt.plot(probs,np.array(sim_res[j]),linestyle='--')
     plt.xticks(probs,fontsize=14)
     plt.yticks(fontsize=14)

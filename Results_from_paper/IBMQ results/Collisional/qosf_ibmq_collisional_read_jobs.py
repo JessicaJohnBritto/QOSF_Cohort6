@@ -13,16 +13,20 @@ from mitiq.zne import inference
 provider = IBMProvider()
 
 shots = 1024
-n = 15
+n = 20
 tt = np.pi/6
 g = 1
 t = g*(tt)
 T = [i*t for i in range(1,n+1)]
+sim_T = np.linspace(0,T[-1],num=1000)
 
-with open('./Data/Real/3.json') as file:
+def corrfunc(time):
+    return (np.cos(time)**2-np.sin(time)**2)/2
+
+with open('./Data/Real/4.json') as file:
     all_res = json.load(file)
 
-with open('./Data/Sim/1.json') as file:
+with open('./Data/Sim/2.json') as file:
     all_res_sim = json.load(file)
 
 scale_factors = [1]
@@ -45,10 +49,10 @@ for i in range(n): #For the current collision count
             continue
         exp_vals.append(all_res[m][i][0]/shots)
         sf_real.append(scale_factors[m])
-    res_real[i] = all_res[0][i][0]/shots    #Store real values
+    res_real[i] = (all_res[0][i][0]-all_res[0][i][1])/(2*shots)    #Store real values
     #print(f'Mitigating collision count {i+1}.')
     #res_mit[i] = mitigate(sf_real,exp_vals)    #Store mitigated values
-    res_sim[i] = all_res_sim[0][i][0]/20000  #Store simulated values
+    #res_sim[i] = all_res_sim[0][i][0]/20000  #Store simulated values
 
 plt.rcParams['text.usetex'] = True
 
@@ -57,11 +61,11 @@ plt.grid()
 plt.title('Collisional model (correlated case)')
 plt.scatter(T,res_real,s=20,c='red',label='Unmitigated')
 #plt.scatter(T,res_mit,s=20,c='green',label='Mitigated')
-plt.plot(T,res_sim,linestyle='--')
-plt.xticks(T[::2],fontsize=14)
+plt.plot(sim_T,corrfunc(sim_T),linestyle='--')
+plt.xticks(np.linspace(0,T[-1],num=5),fontsize=14)
 plt.yticks(fontsize=14)
 plt.xlabel(r'$t$',fontsize=15)
-plt.ylabel(r'$Re(\rho_{12})$',fontsize=15)
+plt.ylabel(r'$\rho_{12}$',fontsize=15)
 plt.legend()
 plt.show()
 

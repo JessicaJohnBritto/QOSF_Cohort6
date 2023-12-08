@@ -21,11 +21,11 @@ def corr(q, c, system, ancillae, g, t, i):
     for j in range(1, i+1, 1):
         if j%2 != 0:
             coA.cnot(q[ancillae[0]],q[system])
-            coA.rz(t, q[system])
+            coA.rz(2*t, q[system])
             coA.cnot(q[ancillae[0]],q[system])
         else:
             coA.cnot(q[ancillae[1]],q[system])
-            coA.rz(t, q[system])
+            coA.rz(2*t, q[system])
             coA.cnot(q[ancillae[1]],q[system])
     
     coA.h(q[system])
@@ -71,14 +71,14 @@ def rewrite_qasm(qasm_str):
     return '\n'.join(final_output)
 
 provider = IBMProvider()
-backend = provider.get_backend('ibm_osaka')
+backend = provider.get_backend('simulator_statevector')
 
-shots = 1024
+shots = 20000
 
-with open('./Jobs/Real/3.txt','w') as job_id_file:
+with open('./Jobs/Sim/2.txt','w') as job_id_file:
     system = 0
     ancillae = [1, 2, 3]
-    n = 15
+    n = 20
     tt = np.pi/6
     g = 1
     t = g*(tt)
