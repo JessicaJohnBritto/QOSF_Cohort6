@@ -1,0 +1,7 @@
+cnt7z4mwsx00008s19g0
+repcnt = 1024
+scale_factors = [1,3,5,7]
+depth = [1-15]
+initial_layout = [0,2,1]
+ibm_kyoto
+Notes: what happened here? The magnitudes are too small...the job also took extremely long

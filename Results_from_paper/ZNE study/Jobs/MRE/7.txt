@@ -1,0 +1,6 @@
+cntdbqpb08x0008y00sg
+repcnt = 1024
+probs = np.linspace(0,1,num=5)
+scale_factors = [1,3,5,7]
+initial_layout = [64,63,62,72]
+ibm_kyoto

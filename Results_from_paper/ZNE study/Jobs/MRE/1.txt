@@ -1,0 +1,5 @@
+clqcc4kp2taogfcaosm0
+shots = 1024
+scale_factors = [1,3,5,7]
+simulator_statevector
+Notes: Failed because I forgot to add measurement gates
