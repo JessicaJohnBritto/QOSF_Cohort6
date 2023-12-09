@@ -1,0 +1,4 @@
+cnsfdjpgpnkg008m3a50
+shots=8192
+scale_factors = [1,1.5,2,2.5,3,3.5,4,4.5,5]
+depth = 10

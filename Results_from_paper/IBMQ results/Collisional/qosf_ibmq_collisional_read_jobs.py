@@ -13,8 +13,8 @@ from mitiq.zne import inference
 provider = IBMProvider()
 
 shots = 1024
-n = 20
-tt = np.pi/6
+n = 15
+tt = np.pi/12
 g = 1
 t = g*(tt)
 T = [i*t for i in range(1,n+1)]
@@ -23,7 +23,7 @@ sim_T = np.linspace(0,T[-1],num=1000)
 def corrfunc(time):
     return (np.cos(time)**2-np.sin(time)**2)/2
 
-with open('./Data/Real/4.json') as file:
+with open('./Data/Real/3.json') as file:
     all_res = json.load(file)
 
 with open('./Data/Sim/2.json') as file:
@@ -61,6 +61,7 @@ plt.grid()
 plt.title('Collisional model (correlated case)')
 plt.scatter(T,res_real,s=20,c='red',label='Unmitigated')
 #plt.scatter(T,res_mit,s=20,c='green',label='Mitigated')
+plt.scatter(T,corrfunc(T),marker='x',c='green')
 plt.plot(sim_T,corrfunc(sim_T),linestyle='--')
 plt.xticks(np.linspace(0,T[-1],num=5),fontsize=14)
 plt.yticks(fontsize=14)

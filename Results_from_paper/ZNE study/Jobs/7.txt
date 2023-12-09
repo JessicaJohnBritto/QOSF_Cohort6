@@ -1,0 +1,5 @@
+cnsnw088ybr000841p50
+repcnt = 4096
+scale_factors = [1,3,5,7]
+depth = [1-7]
+ibm_kyoto

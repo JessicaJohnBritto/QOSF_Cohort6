@@ -1,0 +1,4 @@
+cnsf8tvvn4c0008a1vc0
+shots=1024
+scale_factors = [1,1.5,2,2.5,3,3.5,4,4.5,5]
+depth = 10
