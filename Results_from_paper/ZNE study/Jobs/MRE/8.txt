@@ -1,0 +1,7 @@
+cntmac9ye0eg008ayyyg
+repcnt = 1024
+probs = np.linspace(0,1,num=5)
+scale_factors = [1,3,5,7]
+initial_layout = [72, 62, 63, 64]
+ibm_osaka
+Notes: Perfect results
