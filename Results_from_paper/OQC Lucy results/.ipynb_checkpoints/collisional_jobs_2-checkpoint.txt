@@ -1,0 +1,2 @@
+scale factor 1:
+['aws_oqc_lucy-contactmainakroy-qjob-z78iwzwxipztabihw246', 'aws_oqc_lucy-contactmainakroy-qjob-v20cof8q2ei2tfovthxp', 'aws_oqc_lucy-contactmainakroy-qjob-9g6vstlbnrv6b4n0kvnu', 'aws_oqc_lucy-contactmainakroy-qjob-c2yfztj9thrrs3whs1td', 'aws_oqc_lucy-contactmainakroy-qjob-ve6pieye6f4vzu6ti3e1', 'aws_oqc_lucy-contactmainakroy-qjob-kq6o7cgafkhxmqkkhppb', 'aws_oqc_lucy-contactmainakroy-qjob-y7vbmceleffe3h1wcfj2']
