@@ -1,0 +1,3 @@
+cp293yqmbjng0088k8kg
+ibm_osaka
+shots = 1024

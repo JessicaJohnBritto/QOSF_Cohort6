@@ -1,0 +1,3 @@
+cm29661054sir2c6g0i0
+simulator_statevector
+shots=8192
