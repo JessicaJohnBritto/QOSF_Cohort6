@@ -1,0 +1,7 @@
+cp2mhyqyx18g008yn30g
+ibm_osaka
+initial_layout = [43,       #system
+                  42,44,34, #env at dist 1
+                  41,45,24, #env at dist 2
+                  23]       #env at dist 3
+shots = 4096

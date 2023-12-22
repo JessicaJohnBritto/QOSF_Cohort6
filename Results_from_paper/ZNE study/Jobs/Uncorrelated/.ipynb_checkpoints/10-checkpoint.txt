@@ -1,0 +1,3 @@
+cm2lpp9054sir2c854tg
+simulator_statevector
+shots = 4096

@@ -1,0 +1,7 @@
+cp2s7xqja3gg0085seag
+ibm_osaka
+shots = 4096
+initial_layout = [43,       #system
+                  42,44,34, #env at dist 1
+                  41,45,24, #env at dist 2
+                  23]       #env at dist 3
