@@ -10,9 +10,15 @@ work by [García-Pérez, et al.](https://www.nature.com/articles/s41534-019-0235
 We did simulations of two Open Quantum System models, Collisional and Markovian Reservoir, with noise simulations, 
 the latest IBM devices (ibmq_kyoto, ibmq_osaka) and the Oxford Quantum Circuits (OQC) device Lucy. Extending on previous results. Using the [Mitiq](https://mitiq.readthedocs.io/en/stable/)
 toolkit, we apply Zero-Noise extrapolation (ZNE), an error mitigation technique, and analyze their deviation from the theoretical 
-results for the models under study. For both models, by applying ZNE, we reduced the error and overlapped it with the theoretical results. 
+results for the models under study. For both models, by applying ZNE, we reduced the error and overlapped it with the theoretical results.
 
-![Image](mre_1.png)
+
+Markovian Reservoir          |  Collisional Model 
+:-------------------------:|:-------------------------:
+<img src="mre_1.png" alt="drawing" width="400"/> | <img src="collisional.png" alt="drawing" width="400"/> 
+*Results from ibmb_kyoto for the (Left) Markovian reservoir simulation and (Right) Collisional model with ZNE and 1024 shots. The points correspond
+to the experimental results, while the dashed lines show the theoretical prediction*
+
 
 One of the main hassles of working on this type of project is the different frameworks necessary to run the simulations 
 and in real QPU. We used Mitiq, Qiskit, [Cirq](https://github.com/quantumlib/Cirq), and [AWS braket](https://github.com/amazon-braket/amazon-braket-sdk-python) in this project. Since Mitiq is based on Cirq, it is better 
