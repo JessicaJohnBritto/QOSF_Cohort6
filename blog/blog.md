@@ -1,11 +1,11 @@
 # Simulating open quantum systems with qbraid-SDK
 
-During the Quantum Computing Mentorship Program from the Quantum Open Source Foundation (QOSF), which connects people
+During the Quantum Computing Mentorship Program from the [Quantum Open Source Foundation](https://qosf.org/) (QOSF), which connects people
 from diverse backgrounds with mentors from academia and industry, we had access to the Qbraid services. This blog will 
 explain our experience using Qbraid in our project.
 
 The project goal was to understand how to simulate open quantum systems using gate-based quantum computing. Using as a guide the previous 
-work by García-Pérez, et al. [npj Quantum Information 6.1 (2020): 1].
+work by [García-Pérez, et al.](https://www.nature.com/articles/s41534-019-0235-y).
 
 We did simulations of two Open Quantum System models, Collisional and Markovian Reservoir, with noise simulations, 
 the latest IBM devices (ibmq_kyoto, ibmq_osaka) and the Oxford Quantum Circuits (OQC) device Lucy. Extending on previous results. Using the [Mitiq](https://mitiq.readthedocs.io/en/stable/)
