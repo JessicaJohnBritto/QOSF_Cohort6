@@ -1,7 +1,7 @@
 # Simulating open quantum systems with qbraid-SDK
 
 During the Quantum Computing Mentorship Program from the [Quantum Open Source Foundation](https://qosf.org/) (QOSF), which connects people
-from diverse backgrounds with mentors from academia and industry, we had access to the Qbraid services. This blog will 
+from diverse backgrounds with mentors from academia and industry, we had access to the qBraid services. This blog will 
 explain our experience using Qbraid in our project.
 
 The project goal was to understand how to simulate open quantum systems using gate-based quantum computing. Using as a guide the previous 
@@ -29,9 +29,10 @@ Finally, to run the circuits in Lucy from OQC, AWS braket must be used. Given th
 the circuit will increase in depth.
 
 The use of multiple frameworks can complicate the actual applications that we want to explore with quantum computing. 
-Using the QBraid-SDK environment, a Python toolkit for cross-framework abstraction, transpilation, and execution of
+Using the qBraid-SDK environment, a Python toolkit for cross-framework abstraction, transpilation, and execution of
 quantum programs on hardware and simulators, facilitated the implementation of multiple quantum frameworks. Also,
-it facilitates the connection with AWS quantum services.
+it facilitates the connection with AWS quantum services. In the diagram shown above, we can observe the workflow used in 
+the project where qBraid offered a unified platform to work with multiple frameworks.
 
 ![Image](open_systes.png)
 *Workflow used to simulated the Collisional and Markovian reservoir model using the qbraid-SDK*
