@@ -15,7 +15,8 @@ results for the models under study. For both models, by applying ZNE, we reduced
 
 Markovian Reservoir          |  Collisional Model 
 :-------------------------:|:-------------------------:
-<img src="mre_1.png" alt="drawing" width="400"/> | <img src="collisional.png" alt="drawing" width="400"/> 
+<img src="mre_1.png" alt="drawing" width="400"/> | <img src="collisional.png" alt="drawing" width="600"/> 
+
 *Results from ibmb_kyoto for the (Left) Markovian reservoir simulation and (Right) Collisional model with ZNE and 1024 shots. The points correspond
 to the experimental results, while the dashed lines show the theoretical prediction*
 
